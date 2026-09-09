@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Jaikisan Automation Suite">
+
+    <listeners>
+    <listener class-name="com.jaikisan.automation.TestListener"/>
+</listeners>
+
+    <test name="Home Page Tests">
+
+        <classes>
+            <class name="com.jaikisan.automation.TC01_HomePageTest"/>
+
+            <class name="com.jaikisan.automation.TC02_SearchProductTest"/>
+
+            <class name="com.jaikisan.automation.TC03_InvalidProductSearchTest"/>
+
+            <class name="com.jaikisan.automation.TC04_VegetablesCategoryTest"/>
+
+            <class name="com.jaikisan.automation.TC05_FruitsCategoryTest"/>
+
+            <class name="com.jaikisan.automation.TC06_ProductDetailsTest"/>
+
+            <class name="com.jaikisan.automation.TC07_AddToCartTest"/>
+
+            <class name="com.jaikisan.automation.TC08_CartDetailsTest"/>
+
+            <class name="com.jaikisan.automation.TC09_IncreaseCartQuantityTest"/>
+
+            <class name="com.jaikisan.automation.TC10_DeleteProductTest"/>
+
+            <class name="com.jaikisan.automation.TC11_CheckoutNavigationTest"/>
+
+            <class name="com.jaikisan.automation.TC12_LoginPageTest"/>
+
+            <class name="com.jaikisan.automation.TC13_RegisterPageTest"/>
+
+            <class name="com.jaikisan.automation.TC14_RegistrationFormFieldsTest"/>
+
+            <class name="com.jaikisan.automation.TC15_EmptyRegistrationValidationTest"/>
+
+            <class name="com.jaikisan.automation.TC16_InvalidPhoneNumberTest"/>
+        </classes>
+
+    </test>
+
+</suite>
