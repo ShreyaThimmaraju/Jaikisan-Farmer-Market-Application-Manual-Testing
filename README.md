@@ -1,104 +1,246 @@
-# Jaikisan – Farmer Market Application Manual Testing
+﻿# Jaikisan - Farmer Market Application
+
+
 
 ## Project Overview
 
-Jaikisan is a farmer-to-home marketplace application that allows users to browse fresh agricultural products, search for products, view product details, add products to the cart, and manage their account.
 
-This project focuses on manually testing the main functional features of the application.
 
-## Application URL
+Jaikisan is a Farmer-to-Consumer marketplace application that allows customers to browse agricultural products, search for products, view product details, add products to the cart, and proceed toward checkout.
 
-https://jaikisan.app/
 
-## Testing Type
 
-- Manual Testing
-- Functional Testing
-- UI Testing
-- Validation Testing
-- Negative Testing
+This project covers both Manual Testing and Selenium Automation Testing.
 
-## Modules Tested
 
-- Home Page
-- Product Search
-- Product Categories
-- Product Details
-- Shopping Cart
-- Login
-- Registration
-- Language Selection
-- Navigation
 
-## Testing Documents
+---
 
-### 01. Test Plan
-Contains the testing objective, scope, approach, environment, and overall testing information.
 
-### 02. Test Scenarios
-Contains high-level scenarios used to verify the application's functionality.
 
-### 03. Test Cases
-Contains detailed test cases with test steps, expected results, actual results, and status.
+## Manual Testing
 
-### 04. Bug Reports
-Contains the defects identified during testing.
 
-### 05. Bug Screenshots
-Contains screenshots captured as evidence for identified bugs and passed test cases.
 
-## Defects Identified
+### Testing Activities
 
-During manual testing, the following issues were identified:
 
-1. Fresh Tomatoes image is not displayed.
-2. Vegetables category shows no products.
-3. Alphonso Mangoes image is not displayed.
-4. Cart quantity (+ / -) buttons are not working.
-5. Cart delete button is not working.
-6. Login link is not clickable in the tested location.
-7. Language change requires page refresh.
-8. Category links lead to 404 Page Not Found.
-9. Organic category link leads to 404 Page Not Found.
-10. Login/registration validation issues were observed during testing.
 
-## Test Result
+- Test Plan
 
-The application was manually tested across the selected modules.
+- Test Scenarios
 
-- Test cases executed: As documented in the Test Cases Excel file
-- Bugs identified: 9+ issues
-- Testing status: Completed
+- Test Cases
 
-## Tools Used
+- Bug Reports
 
-- Google Chrome
-- Microsoft Excel
-- Visual Studio Code
-- Git
-- GitHub
+- Bug Screenshots
 
-## Project Structure
+
+
+---
+
+
+
+## Automation Testing
+
+
+
+### Tools & Technologies
+
+
+
+- Java 17
+
+- Selenium WebDriver
+
+- TestNG
+
+- Maven
+
+- Page Object Model (POM)
+
+- WebDriverWait
+
+- ExtentReports
+
+- Git & GitHub
+
+
+
+### Automated Test Cases
+
+
+
+| Test Case | Description |
+
+|---|---|
+
+| TC01 | Home Page Verification |
+
+| TC02 | Search Product |
+
+| TC03 | Invalid Product Search |
+
+| TC04 | Vegetables Category |
+
+| TC05 | Fruits Category |
+
+| TC06 | Product Details |
+
+| TC07 | Add Product to Cart |
+
+| TC08 | Cart Details |
+
+| TC09 | Increase Cart Quantity |
+
+| TC10 | Delete Product from Cart |
+
+| TC11 | Proceed to Checkout |
+
+| TC12 | Login Page |
+
+| TC13 | Register Page |
+
+| TC14 | Registration Form Fields |
+
+| TC15 | Empty Registration Validation |
+
+| TC16 | Invalid Phone Number Validation |
+
+
+
+### Test Execution Result
+
+
+
+- Total Tests: 16
+
+- Passed: 14
+
+- Failed: 2
+
+- Errors: 0
+
+- Skipped: 0
+
+
+
+### Known Defects Detected
+
+
+
+#### BUG_004 - Cart Quantity Not Increasing
+
+
+
+The cart quantity remains `1` after clicking the `+` button.
+
+
+
+Detected by:
+
+
+
+`TC09 - Increase Cart Quantity`
+
+
+
+#### BUG_005 - Delete Product Not Working
+
+
+
+The product remains in the cart after clicking the Delete button.
+
+
+
+Detected by:
+
+
+
+`TC10 - Delete Product`
+
+
+
+These failures are intentional because the automation tests successfully identify defects in the application.
+
+
+
+---
+
+
+
+## Automation Framework Structure
+
+
 
 ```text
-Jaikisan-Farmer-Market-Application
-│
-├── 01_Test_Plan
-│   └── Jaikisan_Test_Plan.xlsx
-│
-├── 02_Test_Scenarios
-│   └── Jaikisan_Test_Scenarios.xlsx
-│
-├── 03_Test_Cases
-│   └── Jaikisan_Test_Cases.xlsx
-│
-├── 04_Bug_Reports
-│   └── Jaikisan_Bug_Report.xlsx
-│
-├── 05_Bug_Screenshots
-│   ├── BUG_001...
-│   ├── BUG_002...
-│   ├── BUG_003...
-│   └── ...
-│
-└── README.md
+
+jaikisan-automation
+
+    pom.xml
+
+    testng.xml
+
+    src
+
+        test
+
+            java
+
+                com.jaikisan.automation
+
+                    BaseTest.java
+
+                    ExtentReportManager.java
+
+                    TestListener.java
+
+                    TC01_HomePageTest.java
+
+                    TC02_SearchProductTest.java
+
+                    TC03_InvalidProductSearchTest.java
+
+                    TC04_VegetablesCategoryTest.java
+
+                    TC05_FruitsCategoryTest.java
+
+                    TC06_ProductDetailsTest.java
+
+                    TC07_AddToCartTest.java
+
+                    TC08_CartDetailsTest.java
+
+                    TC09_IncreaseCartQuantityTest.java
+
+                    TC10_DeleteProductTest.java
+
+                    TC11_CheckoutNavigationTest.java
+
+                    TC12_LoginPageTest.java
+
+                    TC13_RegisterPageTest.java
+
+                    TC14_RegistrationFormFieldsTest.java
+
+                    TC15_EmptyRegistrationValidationTest.java
+
+                    TC16_InvalidPhoneNumberTest.java
+
+                    pages
+
+                        BasePage.java
+
+                        HomePage.java
+
+                        ProductPage.java
+
+                        CartPage.java
+
+                        LoginPage.java
+
+                        RegisterPage.java
+
+
+
