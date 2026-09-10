@@ -243,4 +243,10 @@ jaikisan-automation
                         RegisterPage.java
 
 
+---
 
+## Jenkins CI/CD
+
+Jenkins CI/CD automation configured successfully.
+
+GitHub → Jenkins → Maven → Selenium/TestNG → ExtentReports
