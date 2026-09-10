@@ -22,14 +22,18 @@ public class TC11_CheckoutNavigationTest extends BaseTest {
         );
 
         // Click Fruits category
-        By fruitsLink = By.xpath("//a[contains(.,'Fruits')]");
+        By fruitsLink = By.xpath(
+                "//a[contains(.,'Fruits')]"
+        );
 
         wait.until(
                 ExpectedConditions.elementToBeClickable(fruitsLink)
         ).click();
 
         wait.until(
-                ExpectedConditions.urlContains("/categories/fruits")
+                ExpectedConditions.urlContains(
+                        "/categories/fruits"
+                )
         );
 
         // Click Alphonso Mangoes
@@ -38,7 +42,9 @@ public class TC11_CheckoutNavigationTest extends BaseTest {
         );
 
         wait.until(
-                ExpectedConditions.elementToBeClickable(alphonsoMangoes)
+                ExpectedConditions.elementToBeClickable(
+                        alphonsoMangoes
+                )
         ).click();
 
         wait.until(
@@ -53,6 +59,18 @@ public class TC11_CheckoutNavigationTest extends BaseTest {
         // Add product to cart
         productPage.clickAddToCart();
 
+        // Wait until product is added successfully
+        wait.until(
+                ExpectedConditions.textToBePresentInElementLocated(
+                        By.tagName("body"),
+                        "Added to Cart"
+                )
+        );
+
+        System.out.println(
+                "Product added to cart successfully."
+        );
+
         // Open Cart
         By cartLink = By.xpath(
                 "//a[contains(@href,'/cart')]"
@@ -62,6 +80,7 @@ public class TC11_CheckoutNavigationTest extends BaseTest {
                 ExpectedConditions.elementToBeClickable(cartLink)
         ).click();
 
+        // Wait for Cart page
         wait.until(
                 ExpectedConditions.urlContains("/cart")
         );
@@ -69,14 +88,21 @@ public class TC11_CheckoutNavigationTest extends BaseTest {
         // Create Cart Page object
         CartPage cartPage = new CartPage(driver);
 
-        // Verify Proceed to Checkout button
+        // Proceed to Checkout button
         By checkoutButton = By.xpath(
-                "//a[contains(@href,'/checkout') and contains(.,'Proceed to Checkout')]"
+                "//a[contains(@href,'/checkout') " +
+                "and contains(normalize-space(),'Proceed to Checkout')]"
         );
 
-        Assert.assertTrue(
-                driver.findElements(checkoutButton).size() > 0,
-                "Proceed to Checkout button should be displayed"
+        // Wait for checkout button to appear
+        wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        checkoutButton
+                )
+        );
+
+        System.out.println(
+                "Proceed to Checkout button is displayed."
         );
 
         // Click Proceed to Checkout

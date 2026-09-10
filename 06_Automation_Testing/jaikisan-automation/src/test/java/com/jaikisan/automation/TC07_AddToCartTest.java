@@ -1,30 +1,60 @@
 package com.jaikisan.automation;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.jaikisan.automation.pages.ProductPage;
-import com.jaikisan.automation.pages.CartPage;
 
 public class TC07_AddToCartTest extends BaseTest {
 
     @Test
-    public void verifyAddToCart() throws InterruptedException {
+    public void verifyAddToCart() {
+
+        WebDriverWait wait = new WebDriverWait(
+                driver,
+                Duration.ofSeconds(15)
+        );
 
         // Navigate to Fruits
-        driver.findElement(
-                By.xpath("//a[contains(.,'Fruits')]")
-        ).click();
+        By fruitsLink = By.xpath(
+                "//a[contains(.,'Fruits')]"
+        );
 
-        Thread.sleep(3000);
+        wait.until(driver -> {
+            try {
+                driver.findElement(fruitsLink).click();
+                return true;
+            } catch (StaleElementReferenceException e) {
+                return false;
+            }
+        });
+
+        // Wait for Fruits category page
+        wait.until(
+                ExpectedConditions.urlContains("/categories/fruits")
+        );
 
         // Open Alphonso Mangoes
-        driver.findElement(
-                By.xpath("//a[contains(.,'Alphonso Mangoes')]")
+        By alphonsoMangoes = By.xpath(
+                "//a[contains(.,'Alphonso Mangoes')]"
+        );
+
+        wait.until(
+                ExpectedConditions.elementToBeClickable(alphonsoMangoes)
         ).click();
 
-        Thread.sleep(3000);
+        // Wait for product page
+        wait.until(
+                ExpectedConditions.urlContains(
+                        "/products/alphonso-mangoes-fresh"
+                )
+        );
 
         // Create Product Page object
         ProductPage productPage = new ProductPage(driver);
@@ -32,20 +62,26 @@ public class TC07_AddToCartTest extends BaseTest {
         // Add product to cart
         productPage.clickAddToCart();
 
-        Thread.sleep(2000);
+        // Wait until Add to Cart changes to Added to Cart
+        wait.until(
+                ExpectedConditions.textToBePresentInElementLocated(
+                        By.tagName("body"),
+                        "Added to Cart"
+                )
+        );
 
-        // Create Cart Page object
-       String pageText = driver.findElement(
-        By.tagName("body")
-).getText();
+        // Verify product is still displayed
+        String pageText = driver.findElement(
+                By.tagName("body")
+        ).getText();
 
-System.out.println("PAGE AFTER ADD TO CART:");
-System.out.println(pageText);
+        System.out.println("PAGE AFTER ADD TO CART:");
+        System.out.println(pageText);
 
-Assert.assertTrue(
-        pageText.contains("Alphonso Mangoes"),
-        "Alphonso Mangoes should be displayed after adding to cart"
-);
+        Assert.assertTrue(
+                pageText.contains("Alphonso Mangoes"),
+                "Alphonso Mangoes should be displayed after adding to cart"
+        );
 
         System.out.println(
                 "TC07: Alphonso Mangoes added to cart successfully."

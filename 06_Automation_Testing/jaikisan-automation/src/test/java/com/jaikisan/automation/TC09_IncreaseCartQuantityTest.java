@@ -8,13 +8,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.jaikisan.automation.pages.ProductPage;
 import com.jaikisan.automation.pages.CartPage;
+import com.jaikisan.automation.pages.ProductPage;
 
 public class TC09_IncreaseCartQuantityTest extends BaseTest {
 
     @Test
-    public void verifyIncreaseCartQuantity() throws InterruptedException {
+    public void verifyIncreaseCartQuantity() {
 
         WebDriverWait wait = new WebDriverWait(
                 driver,
@@ -22,14 +22,18 @@ public class TC09_IncreaseCartQuantityTest extends BaseTest {
         );
 
         // Click Fruits category
-        By fruitsLink = By.xpath("//a[contains(.,'Fruits')]");
+        By fruitsLink = By.xpath(
+                "//a[contains(.,'Fruits')]"
+        );
 
         wait.until(
                 ExpectedConditions.elementToBeClickable(fruitsLink)
         ).click();
 
         wait.until(
-                ExpectedConditions.urlContains("/categories/fruits")
+                ExpectedConditions.urlContains(
+                        "/categories/fruits"
+                )
         );
 
         // Click Alphonso Mangoes
@@ -38,7 +42,9 @@ public class TC09_IncreaseCartQuantityTest extends BaseTest {
         );
 
         wait.until(
-                ExpectedConditions.elementToBeClickable(alphonsoMangoes)
+                ExpectedConditions.elementToBeClickable(
+                        alphonsoMangoes
+                )
         ).click();
 
         wait.until(
@@ -53,10 +59,18 @@ public class TC09_IncreaseCartQuantityTest extends BaseTest {
         // Add product to cart
         productPage.clickAddToCart();
 
-        Thread.sleep(2000);
+        // Wait until product is added
+        wait.until(
+                ExpectedConditions.textToBePresentInElementLocated(
+                        By.tagName("body"),
+                        "Added to Cart"
+                )
+        );
 
         // Open Cart
-        By cartLink = By.xpath("//a[contains(@href,'/cart')]");
+        By cartLink = By.xpath(
+                "//a[contains(@href,'/cart')]"
+        );
 
         wait.until(
                 ExpectedConditions.elementToBeClickable(cartLink)
@@ -69,8 +83,16 @@ public class TC09_IncreaseCartQuantityTest extends BaseTest {
         // Create Cart Page object
         CartPage cartPage = new CartPage(driver);
 
+        // Verify product is displayed
+        Assert.assertTrue(
+                cartPage.isProductDisplayed(),
+                "Alphonso Mangoes should be displayed in cart."
+        );
+
         // Get initial quantity
-        String initialQuantity = cartPage.getQuantity();
+        int initialQuantity = Integer.parseInt(
+                cartPage.getQuantity()
+        );
 
         System.out.println(
                 "Initial Quantity: " + initialQuantity
@@ -79,23 +101,34 @@ public class TC09_IncreaseCartQuantityTest extends BaseTest {
         // Click + button
         cartPage.clickPlusButton();
 
-        Thread.sleep(2000);
-
-        // Get updated quantity
-        String updatedQuantity = cartPage.getQuantity();
-
-        System.out.println(
-                "Quantity after clicking +: " + updatedQuantity
+        // Wait briefly for quantity update
+        wait.until(
+                driver -> {
+                    try {
+                        int updatedQuantity = Integer.parseInt(
+                                cartPage.getQuantity()
+                        );
+                        return updatedQuantity != initialQuantity;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
         );
 
-        // Convert quantity to integers
-        int initial = Integer.parseInt(initialQuantity);
-        int updated = Integer.parseInt(updatedQuantity);
+        // Get updated quantity
+        int updatedQuantity = Integer.parseInt(
+                cartPage.getQuantity()
+        );
+
+        System.out.println(
+                "Quantity after clicking +: " +
+                updatedQuantity
+        );
 
         // Verify quantity increased by 1
         Assert.assertEquals(
-                updated,
-                initial + 1,
+                updatedQuantity,
+                initialQuantity + 1,
                 "Quantity should increase by 1 after clicking +"
         );
 
