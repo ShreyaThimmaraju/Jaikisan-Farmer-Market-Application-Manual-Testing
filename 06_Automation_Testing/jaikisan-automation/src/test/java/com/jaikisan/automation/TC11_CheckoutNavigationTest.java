@@ -14,7 +14,7 @@ import com.jaikisan.automation.pages.ProductPage;
 public class TC11_CheckoutNavigationTest extends BaseTest {
 
     @Test
-    public void verifyProceedToCheckout() throws InterruptedException {
+    public void verifyProceedToCheckout() {
 
         WebDriverWait wait = new WebDriverWait(
                 driver,
@@ -53,10 +53,10 @@ public class TC11_CheckoutNavigationTest extends BaseTest {
         // Add product to cart
         productPage.clickAddToCart();
 
-        Thread.sleep(2000);
-
         // Open Cart
-        By cartLink = By.xpath("//a[contains(@href,'/cart')]");
+        By cartLink = By.xpath(
+                "//a[contains(@href,'/cart')]"
+        );
 
         wait.until(
                 ExpectedConditions.elementToBeClickable(cartLink)
@@ -82,7 +82,10 @@ public class TC11_CheckoutNavigationTest extends BaseTest {
         // Click Proceed to Checkout
         cartPage.clickProceedToCheckout();
 
-        Thread.sleep(2000);
+        // Wait until Login page is displayed
+        wait.until(
+                ExpectedConditions.urlContains("/login")
+        );
 
         // Get current URL
         String currentUrl = driver.getCurrentUrl();
